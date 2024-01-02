@@ -24,7 +24,10 @@ pub mod emailvalidator {
                 if !emailaddress.contains("@") {
                     return Err("invalid email address missing @");
                 }
-                return Ok(true);
+                if !emailaddress.contains(".") {
+                    return Err("invalid email address missing period");
+                }
+                Ok(true)
             }
         }
     }
@@ -41,7 +44,7 @@ mod email_validator_tests {
     }
 
     #[test]
-    fn given_a_referee_record_when_email_address_is_empty_in_Referee_then_emailisvalid_should_be_false() {
+    fn given_a_referee_record_when_email_address_is_empty_in_referee_then_emailisvalid_should_be_false() {
         assert_eq!(
             Err("invalid email address"),
             emailvalidator::emailisvalid_in(Referee {
@@ -53,7 +56,7 @@ mod email_validator_tests {
     }
 
     #[test]
-    fn given_a_referee_record_when_email_address_has_no_at_in_Referee_then_emailisvalid_should_be_false() {
+    fn given_a_referee_record_when_email_address_has_no_at_in_referee_then_emailisvalid_should_be_false() {
         assert_eq!(
             Err("invalid email address missing @"),
             emailvalidator::emailisvalid_in(Referee {
@@ -63,6 +66,19 @@ mod email_validator_tests {
             })
         );
     }
+
+    #[test]
+    fn given_a_referee_record_when_email_address_has_no_period_in_referee_then_emailisvalid_should_be_false() {
+        assert_eq!(
+            Err("invalid email address missing period"),
+            emailvalidator::emailisvalid_in(Referee {
+                name: "Rich".to_string(),
+                email: Some("meyou@com".to_string()),
+                phone: Some("5332432432".to_string()),
+            })
+        );
+    }
+
     #[test]
     fn given_a_referee_record_when_email_address_is_valid_then_emailisvalid_should_be_true() {
         assert_eq!(Ok(true), emailvalidator::emailisvalid("me@you.com"));
