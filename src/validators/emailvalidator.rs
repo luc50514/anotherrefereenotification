@@ -1,5 +1,5 @@
 pub mod emailvalidator {
-    use serde::{ Serialize, Deserialize };
+    use serde::{ Serialize };
     #[derive(Serialize)]
     pub struct Referee {
         pub name: String,
@@ -15,7 +15,7 @@ pub mod emailvalidator {
         }
         Ok(true)
     }
-    pub fn emailisvalidIn(referee: Referee) -> Result<bool, &'static str> {
+    pub fn emailisvalid_in(referee: Referee) -> Result<bool, &'static str> {
         match referee.email {
             None => {
                 return Err("invalid email address");
@@ -44,7 +44,7 @@ mod email_validator_tests {
     fn given_a_referee_record_when_email_address_is_empty_in_Referee_then_emailisvalid_should_be_false() {
         assert_eq!(
             Err("invalid email address"),
-            emailvalidator::emailisvalidIn(Referee {
+            emailvalidator::emailisvalid_in(Referee {
                 name: "Rich".to_string(),
                 email: None,
                 phone: Some("5332432432".to_string()),
@@ -56,7 +56,7 @@ mod email_validator_tests {
     fn given_a_referee_record_when_email_address_has_no_at_in_Referee_then_emailisvalid_should_be_false() {
         assert_eq!(
             Err("invalid email address missing @"),
-            emailvalidator::emailisvalidIn(Referee {
+            emailvalidator::emailisvalid_in(Referee {
                 name: "Rich".to_string(),
                 email: Some("meyou.com".to_string()),
                 phone: Some("5332432432".to_string()),
