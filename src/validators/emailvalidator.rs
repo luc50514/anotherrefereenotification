@@ -1,14 +1,6 @@
 pub mod emailvalidator {
-    use serde::{ Serialize, Deserialize };
     use email_address::*;
-    #[derive(Serialize, Deserialize)]
-    pub struct Referee {
-        pub name: String,
-        #[serde(default)]
-        pub email: Option<String>,
-        #[serde(default)]
-        pub phone: Option<String>,
-    }
+    use crate::referee::referee::*;
 
     pub fn emailisvalid_in(referee: Referee) -> Result<bool, &'static str> {
         match referee.email {
@@ -28,7 +20,7 @@ pub mod emailvalidator {
 #[cfg(test)]
 mod email_validator_tests {
     use super::*;
-    use crate::validators::emailvalidator::emailvalidator::Referee;
+    use crate::referee::referee::Referee;
 
     #[test]
     fn given_a_referee_record_when_email_address_is_empty_in_referee_then_emailisvalid_should_be_false() {
@@ -38,6 +30,7 @@ mod email_validator_tests {
                 name: "Rich".to_string(),
                 email: None,
                 phone: Some("5332432432".to_string()),
+                isactivated: None,
             })
         );
     }
@@ -50,6 +43,7 @@ mod email_validator_tests {
                 name: "Rich".to_string(),
                 email: Some("meyou.com".to_string()),
                 phone: Some("5332432432".to_string()),
+                isactivated: None,
             })
         );
     }
@@ -60,6 +54,7 @@ mod email_validator_tests {
             name: "Rich".to_string(),
             email: Some("meyou.com".to_string()),
             phone: Some("5332432432".to_string()),
+            isactivated: None,
         };
         let referee_serialized = serde_json::to_string(&referee).unwrap();
         let referee_deserialized: Referee = serde_json
@@ -77,6 +72,7 @@ mod email_validator_tests {
             name: "Rich".to_string(),
             email: Some("me@you.com".to_string()),
             phone: Some("5332432432".to_string()),
+            isactivated: None,
         };
         let referee_serialized = serde_json::to_string(&referee).unwrap();
         let referee_deserialized: Referee = serde_json
