@@ -1,13 +1,28 @@
 pub mod phonevalidator {
+    use std::str::FromStr;
+
     use crate::referee::referee::*;
+    extern crate phonenumber;
+    use phonenumber::PhoneNumber;
 
     pub fn phoneisvalid_in(referee: Referee) -> Result<bool, &'static str> {
         match referee.phone {
             None => {
                 return Err("invalid phone number");
             }
-            Some(_) => {
-                return Ok(true);
+            Some(phone) => {
+                match PhoneNumber::from_str(&phone) {
+                    Ok(phonenum) => {
+                        if phonenum.is_valid() {
+                            return Ok(true);
+                        } else {
+                            return Err("invalid phone number");
+                        }
+                    }
+                    Err(_) => {
+                        return Err("invalid phone number");
+                    }
+                }
             }
         }
     }
@@ -48,7 +63,7 @@ mod phone_validator_tests {
         let referee: Referee = Referee {
             name: "Rich".to_string(),
             email: Some("meyou.com".to_string()),
-            phone: Some("533243243".to_string()),
+            phone: Some("+1533243243".to_string()),
             isactivated: None,
         };
         let referee_serialized = serde_json::to_string(&referee).unwrap();
@@ -66,7 +81,7 @@ mod phone_validator_tests {
         let referee: Referee = Referee {
             name: "Rich".to_string(),
             email: Some("me@you.com".to_string()),
-            phone: Some("5332432432".to_string()),
+            phone: Some("+15029025292".to_string()),
             isactivated: None,
         };
         let referee_serialized = serde_json::to_string(&referee).unwrap();

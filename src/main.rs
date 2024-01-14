@@ -17,7 +17,7 @@ fn main() {
         validators::phonevalidator::phonevalidator::phoneisvalid_in(referee::referee::Referee {
             name: "Rich".to_string(),
             email: None,
-            phone: Some("5332432432".to_string()),
+            phone: Some("+15332432432".to_string()),
             isactivated: None,
         })
     {
