@@ -30,13 +30,13 @@ async fn sendmessage() {
         "ee0e185388e324dea90d08219b7080ba"
     );
     let mut message = Message::new(
-        "mailjet_sender@company.com",
+        "luc50514@gmail.com",
         "Mailjet Rust",
         Some("Your email flight plan!".to_string()),
         Some("Dear passenger, welcome to Mailjet! May the delivery force be with you!".to_string())
     );
 
-    message.push_recipient(Recipient::new("luc50514@gmail.com"));
+    message.push_recipient(Recipient::new("luc50515@gmail.com"));
 
     // Finally send the message using the `Client`
     let response = client.send(message).await;
